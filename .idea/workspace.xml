@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51a99ba6-d17e-432f-bf21-e90a68a7f86c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/flaskDemo/templates/project.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flaskDemo/templates/projects.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flaskDemo/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskDemo/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flaskDemo/templates/assign.html" beforeDir="false" afterPath="$PROJECT_DIR$/flaskDemo/templates/assign.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flaskDemo/templates/assign_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/flaskDemo/templates/assign_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flaskDemo/templates/employee.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flaskDemo/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/flaskDemo/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskDemo/templates/project.html" beforeDir="false" afterPath="$PROJECT_DIR$/flaskDemo/templates/project.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,10 +36,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flaskDemo/templates/project.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="32" column="58" lean-forward="true" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
+            <state relative-caret-position="105">
+              <caret line="26" column="2" selection-start-line="26" selection-start-column="2" selection-end-line="26" selection-end-column="2" />
               <folding>
                 <element signature="e#1046#1052#0#HTML" expanded="true" />
+                <element signature="e#1214#1220#0#HTML" expanded="true" />
+                <element signature="e#1269#1275#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -232,25 +227,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1573316544360</updated>
-      <workItem from="1573316549423" duration="18813000" />
+      <workItem from="1573316549423" duration="18974000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18813000" />
+    <option name="totallyTimeSpent" value="18974000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="41" width="1262" height="741" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" visible="true" weight="0.32973805" />
+      <window_info anchor="bottom" id="Version Control" weight="0.32973805" />
       <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" weight="0.32973805" />
+      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.32973805" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -377,10 +372,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flaskDemo/templates/project.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="32" column="58" lean-forward="true" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
+        <state relative-caret-position="105">
+          <caret line="26" column="2" selection-start-line="26" selection-start-column="2" selection-end-line="26" selection-end-column="2" />
           <folding>
             <element signature="e#1046#1052#0#HTML" expanded="true" />
+            <element signature="e#1214#1220#0#HTML" expanded="true" />
+            <element signature="e#1269#1275#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>

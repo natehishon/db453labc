@@ -24,32 +24,15 @@
     <br>
 
     <h3>Add Employees:</h3>
-    {#    <select name="emp" >#}
-    {#        {% for row in currentIds %}#}
-    {#            <option value="{{ url_for('new_works', essn=row.ssn, pno=project.pnumber) }}" SELECTED>{{ row.fname, row.lname }}</option>#}
-    {#        {% endfor %}#}
-    {#    </select>#}
 
-    <form action="{{ url_for('new_works')}}" method="GET">
 
-        <select name='emp'>
-            {% for row in currentIds %}
-                <option value="{{ row }}" selected='selected'>{{ row }}</option>
+        {% for row in currentIds %}
+            <article class="media content-section">
+                    <span>{{ row.fname }}</span>,&nbsp;
+                    <span>{{ row.lname }}</span>&nbsp;
+            <a class="" href="{{ url_for('new_works', essn=row.ssn, pno=project.pnumber) }}">Add</a>
 
-            {% endfor %}
-
-        </select>
-
-        <input type="submit" value="Submit"/>
-    </form>
-
-    {#    {% for row in currentIds %}#}
-    {#        <article class="media content-section">#}
-    {#                <span>{{ row.fname }}</span>,&nbsp;#}
-    {#                <span>{{ row.lname }}</span>&nbsp;#}
-    {#        <a class="" href="{{ url_for('new_works', essn=row.ssn, pno=project.pnumber) }}">Add</a>#}
-    {##}
-    {#        </article>#}
-    {#     {% endfor %}#}
+            </article>
+         {% endfor %}
     <!-- Modal -->
 {% endblock content %}
