@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{% extends "layout.html" %}
+{% block content %}
+    <h1>{{ project.pname }}</h1>
+    <br>
+
+
+    <h3>Enrolled Employees:</h3>
+    {% for row in employees %}
+        <article class="media content-section">
+            <span>{{ row.fname }}</span>,&nbsp;
+            <span>{{ row.lname }}</span>
+        </article>
+    {% endfor %}
+
+    <br>
+
+    <h3>Add Employees:</h3>
+    {#    <select name="emp" >#}
+    {#        {% for row in currentIds %}#}
+    {#            <option value="{{ url_for('new_works', essn=row.ssn, pno=project.pnumber) }}" SELECTED>{{ row.fname, row.lname }}</option>#}
+    {#        {% endfor %}#}
+    {#    </select>#}
+
+    <form action="{{ url_for('new_works')}}" method="GET">
+
+        <select name='emp'>
+            {% for row in currentIds %}
+                <option value="{{ row }}" selected='selected'>{{ row }}</option>
+
+            {% endfor %}
+
+        </select>
+
+        <input type="submit" value="Submit"/>
+    </form>
+
+    {#    {% for row in currentIds %}#}
+    {#        <article class="media content-section">#}
+    {#                <span>{{ row.fname }}</span>,&nbsp;#}
+    {#                <span>{{ row.lname }}</span>&nbsp;#}
+    {#        <a class="" href="{{ url_for('new_works', essn=row.ssn, pno=project.pnumber) }}">Add</a>#}
+    {##}
+    {#        </article>#}
+    {#     {% endfor %}#}
+    <!-- Modal -->
+{% endblock content %}

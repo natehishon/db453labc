@@ -177,29 +177,19 @@ def delete_dept(dnumber):
 
 @app.route("/employees")
 def employees():
-    # results = Department.query.all()
-    # return render_template('dept_home.html', outString = results)
-    # posts = Post.query.all()
-    # return render_template('home.html', posts=posts)
-    # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-    #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-    # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-
-    results2 = Employee.query.join(Works_On, Employee.ssn == Works_On.essn) \
-        .add_columns(Employee.ssn, Employee.fname, Works_On.essn, Works_On.pno) \
+    employeeProjects = Employee.query.join(Works_On, Employee.ssn == Works_On.essn) \
+        .add_columns(Employee.ssn, Employee.fname, Employee.lname, Works_On.essn, Works_On.pno) \
         .join(Project, Project.pnumber == Works_On.pno).add_columns(Project.pname)
 
-    return render_template('assign_home.html', title='Employees', joined_m_n=results2)
+    return render_template('assign_home.html', title='Employees', joined_m_n=employeeProjects)
+
+@app.route("/projects")
+def projects():
+    projects = Project.query.all()
+
+    return render_template('projects.html', title='Projects', joined_m_n=projects)
 
 
-
-# @app.route("/assign/<pno>/<essn>")
-# @login_required
-# def assign(pno, essn):
-#     assign = Works_On.query.get_or_404([essn,pno])
-#     return render_template('assign.html', title=str(assign.essn)+"_"+str(assign.pno), assign=assign,now=datetime.utcnow())
 
 @app.route("/assign1")
 @login_required
@@ -218,3 +208,36 @@ def delete_assign(essn,pno):
     db.session.commit()
     flash('The works on has been deleted!', 'success')
     return redirect(url_for('home'))
+
+
+@app.route("/project/<pnumber>")
+@login_required
+def project(pnumber):
+
+    project = Project.query.get_or_404(pnumber)
+
+    # project = sqlraw(select * from
+
+    currentEmployees = Employee.query.join(Works_On, Employee.ssn == Works_On.essn) \
+        .add_columns(Employee.ssn, Employee.fname, Employee.lname, Works_On.essn, Works_On.pno) \
+        .join(Project, Project.pnumber == Works_On.pno).add_columns(Project.pname).filter(Project.pnumber == pnumber)
+    #
+
+    currentIds = db.session.query(Employee.ssn). \
+        join(Works_On, Works_On.essn == Employee.ssn). \
+        filter(Works_On.pno == pnumber)
+
+    availableEmployees = Employee.query.filter(Employee.ssn.notin_(currentIds)).all()
+
+
+
+    return render_template('project.html', title=project.pname, project=project, employees=currentEmployees, currentIds = availableEmployees, now=datetime.utcnow())
+
+
+@app.route("/works/<essn>/<pno>works", methods=['GET'])
+@login_required
+def new_works(essn,pno):
+    new_works = Works_On(essn=essn, pno=pno, hours=0)
+    db.session.add(new_works)
+    db.session.commit()
+    return redirect(url_for('projects'))

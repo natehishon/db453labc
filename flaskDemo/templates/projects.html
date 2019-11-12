@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Projects</h1>
+    <br>
+    {% for row in joined_m_n %}
+        <article class="media content-section">
+
+                <a class="" href="{{ url_for('project', pnumber=row.pnumber) }}">{{ row.pname }}</a>
+
+        </article>
+     {% endfor %}
+{% endblock content %}

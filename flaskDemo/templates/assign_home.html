@@ -1,13 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
+    <h1>Enrollments</h1>
+    <br>
     {% for row in joined_m_n %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ row }}</a>
-              <small class="text-muted">{{ row['pno'] }}  </small>
+                <span>{{ row.fname }}</span>
+                <span>{{ row.lname }}</span>,
+                <span>{{ row.pname }}</span>
             </div>
-			<h2><a class="article-title" href="{{ url_for('assign1', pno=row.pno,essn=row.essn) }}">assign</a></h2>
+			<a class="" href="{{ url_for('assign1', pno=row.pno,essn=row.essn) }}">Remove</a>
 
           </div>
         </article>
