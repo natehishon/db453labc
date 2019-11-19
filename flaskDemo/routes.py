@@ -4,7 +4,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flaskDemo import app, db, bcrypt
 from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskDemo.models import User, Order
+from flaskDemo.models import User, Order, Product
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime
 
@@ -12,7 +12,17 @@ from datetime import datetime
 @app.route("/")
 @app.route("/home")
 def home():
+    # login manager!
+
     results = Order.query.all()
+
+
+    return render_template('orders.html', title='Orders',orders=results)
+
+
+@app.route("/products")
+def all_products():
+    results = Product.query.all()
     # return render_template('dept_home.html', outString = results)
     # posts = Post.query.all()
     # return render_template('home.html', posts=posts)
@@ -21,7 +31,8 @@ def home():
     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-    return render_template('orders.html', title='Orders',orders=results)
+    return render_template('products.html', title='Products', products=results)
+
 
    
 

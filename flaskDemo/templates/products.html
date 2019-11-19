@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for row in products %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ row }}</a> <br/>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
