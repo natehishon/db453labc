@@ -1,12 +1,19 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flaskDemo import app, db, bcrypt
+import json
 from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskDemo.models import User, Order, Product
+from flaskDemo.models import User, Order, Product, OrderLine
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime
+from .__init__ import login_manager
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.get(id)
 
 
 @app.route("/")
@@ -14,10 +21,17 @@ from datetime import datetime
 def home():
     # login manager!
 
-    results = Order.query.all()
+    # results = []
+    #
+    # if current_user.is_active:
+    #     # results = Order.query.filter(Order.user_id == current_user.id)
+    #
+    #     results = Order.query.filter(Order.user_id == current_user.id).join(OrderLine, Order.id == OrderLine.order_id) \
+    #         .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title)
 
+    results = Product.query.all()
 
-    return render_template('orders.html', title='Orders',orders=results)
+    return render_template('products.html', title='Products', products=results)
 
 
 @app.route("/products")
@@ -34,7 +48,46 @@ def all_products():
     return render_template('products.html', title='Products', products=results)
 
 
-   
+@app.route("/orders")
+@login_required
+def all_orders():
+    results = Order.query.filter(Order.user_id == current_user.id)
+    # return render_template('dept_home.html', outString = results)
+    # posts = Post.query.all()
+    # return render_template('home.html', posts=posts)
+    # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+    #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
+    #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
+    # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+    #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+    return render_template('orders.html', title='Orders', orders=results)
+
+@app.route("/order/<orderId>")
+@login_required
+def order(orderId):
+
+    print(orderId)
+
+    order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).join(OrderLine, Order.id == OrderLine.order_id) \
+            .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title, Order.date_posted)
+    print(order)
+
+    return render_template('order.html', order=order1)
+
+# react
+# @app.route("/products")
+# def all_products():
+#     results = Product.query.all()
+#     # return render_template('dept_home.html', outString = results)
+#     # posts = Post.query.all()
+#     # return render_template('home.html', posts=posts)
+#     # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+#     #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
+#     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
+#     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+#     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+#
+#     return jsonify(results=[e.serialize() for e in results])
 
 
 # @app.route("/about")
@@ -55,6 +108,8 @@ def register():
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
 #
 #
 @app.route("/login", methods=['GET', 'POST'])
@@ -71,12 +126,16 @@ def login():
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
 #
 
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
 #
 #
 # def save_picture(form_picture):
@@ -112,6 +171,8 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
+
+
 #
 #
 # @app.route("/dept/new", methods=['GET', 'POST'])
@@ -128,11 +189,7 @@ def account():
 #                            form=form, legend='New Department')
 #
 #
-# @app.route("/dept/<dnumber>")
-# @login_required
-# def dept(dnumber):
-#     dept = Department.query.get_or_404(dnumber)
-#     return render_template('dept.html', title=dept.dname, dept=dept, now=datetime.utcnow())
+
 #
 #
 # @app.route("/dept/<dnumber>/update", methods=['GET', 'POST'])
@@ -160,6 +217,7 @@ def account():
 #
 #
 #
+
 #
 # @app.route("/dept/<dnumber>/delete", methods=['POST'])
 # @login_required

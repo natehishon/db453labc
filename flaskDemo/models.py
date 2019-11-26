@@ -74,6 +74,13 @@ class Product(db.Model):
     def __repr__(self):
         return f"Product('{self.title}', '{self.date_posted}')"
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+
+        }
+
 # orderline
 
 
