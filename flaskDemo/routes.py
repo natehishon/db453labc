@@ -60,7 +60,21 @@ def addToCart():
 #     return render_template('create_assign.html', title='New Assignment',
 #                            form=form, legend='New Assignment')
 
+#
+# @app.route("/products")
+# def all_products():
+#     results = Product.query.all()
+#     # return render_template('dept_home.html', outString = results)
+#     # posts = Post.query.all()
+#     # return render_template('home.html', posts=posts)
+#     # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+#     #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
+#     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
+#     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+#     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+#     return render_template('products.html', title='Products', products=results)
 
+# react
 @app.route("/products")
 def all_products():
     results = Product.query.all()
@@ -72,13 +86,30 @@ def all_products():
     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-    return render_template('products.html', title='Products', products=results)
+
+    return jsonify(results=[e.serialize() for e in results])
 
 
+# @app.route("/orders")
+# @login_required
+# def all_orders():
+#     results = Order.query.filter(Order.user_id == current_user.id)
+#     # return render_template('dept_home.html', outString = results)
+#     # posts = Post.query.all()
+#     # return render_template('home.html', posts=posts)
+#     # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+#     #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
+#     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
+#     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+#     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+#     return render_template('orders.html', title='Orders', orders=results)
+
+#react
 @app.route("/orders")
-@login_required
 def all_orders():
-    results = Order.query.filter(Order.user_id == current_user.id)
+    #will need a user input
+    userid = 1
+    results = Order.query.filter(Order.user_id == userid)
     # return render_template('dept_home.html', outString = results)
     # posts = Post.query.all()
     # return render_template('home.html', posts=posts)
@@ -87,17 +118,18 @@ def all_orders():
     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-    return render_template('orders.html', title='Orders', orders=results)
+    return jsonify(orders=[e.serialize() for e in results])
+    # return render_template('orders.html', title='Orders', orders=results)
 
 @app.route("/order/<orderId>")
 @login_required
 def order(orderId):
 
-    print(orderId)
 
     order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).join(OrderLine, Order.id == OrderLine.order_id) \
             .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title, Order.date_posted)
-    print(order)
+
+
 
     return render_template('order.html', order=order1)
 

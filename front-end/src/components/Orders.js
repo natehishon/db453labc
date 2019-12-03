@@ -2,17 +2,17 @@ import React from 'react';
 import {List, Header} from 'semantic-ui-react';
 
 
-export const Products = ({ products }) => {
+export const Orders = ({ orders }) => {
 
     console.log('yo');
-    console.log(products);
+    console.log(orders);
 
     return (
         <List>
-            {products.map(product => {
+            {orders.map(order => {
                 return(
-                    <List.Item key={product.title}>
-                        <Header>{product.title}</Header>
+                    <List.Item key={order.id}>
+                        <Header>{order.id}</Header>
                     </List.Item>
                 )
             })}

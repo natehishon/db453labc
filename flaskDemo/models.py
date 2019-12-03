@@ -49,6 +49,13 @@ class Order(db.Model):
     def __repr__(self):
         return f"Order('{self.date_posted}')"
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'date_posted': self.date_posted,
+
+        }
+
 
 class OrderLine(db.Model):
     __table_args__ = {'extend_existing': True}
@@ -109,6 +116,7 @@ class Product(db.Model):
         }
 
 # orderline
+
 
 
 
