@@ -1,15 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for row in products %}
+    {% for row in shopcarts %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ row }}</a> <br/>
+                    <a class="mr-2" href="{{ url_for('shopcart', shopcartId=row.id) }}">{{ row }}</a> <br/>
                 </div>
             </div>
         </article>
-         <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('addToCart') , }}">Add to Cart</a>
-         </div>
     {% endfor %}
 {% endblock content %}

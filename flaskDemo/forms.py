@@ -23,7 +23,10 @@ from wtforms.fields.html5 import DateField
 # regex=regex1 + regex2
 #
 
-
+class AddToCartForm(FlaskForm):
+    productId = IntegerField ('ProductId', validators=[DataRequired()])
+    shopcartId = IntegerField ('ShopcartId', validators=[DataRequired()])
+    submit = SubmitField('Add to Cart')
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',

@@ -4,8 +4,8 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flaskDemo import app, db, bcrypt
 import json
-from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskDemo.models import User, Order, Product, OrderLine
+from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm, AddToCartForm
+from flaskDemo.models import User, Order, Product, OrderLine, Shopcart, ShopcartProd
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime
 from .__init__ import login_manager
@@ -32,6 +32,33 @@ def home():
     results = Product.query.all()
 
     return render_template('products.html', title='Products', products=results)
+
+@app.route("/")
+@app.route("/add-to-cart")
+def addToCart():
+    form = AddToCartForm()
+    assign = ShopcartProd(product_id=form.productId, shopcart_id=form.shopcartId)
+    db.session.add(assign)
+    db.session.commit()
+    flash('Successfully add to cart!', 'success')
+#    return redirect(url_for('all_shopcarts'))
+    return render_template('products.html', title='Products', form=form)
+
+# @app.route("/assign/new", methods=['GET', 'POST'])
+# @login_required
+# def new_assign():
+#     print ("inside new_assign")
+#     form = AssignForm()
+#     print("after assigning Form")
+#     if form.validate_on_submit():
+#         print('inside form.validate')
+#         assign = Works_On(essn=form.essn.data, pno=form.pno.data, hours=0)
+#         db.session.add(assign)
+#         db.session.commit()
+#         flash('You have added a new assignment!', 'success')
+#         return redirect(url_for('home'))
+#     return render_template('create_assign.html', title='New Assignment',
+#                            form=form, legend='New Assignment')
 
 
 @app.route("/products")
@@ -73,6 +100,33 @@ def order(orderId):
     print(order)
 
     return render_template('order.html', order=order1)
+
+
+@app.route("/shopcarts")
+@login_required
+def all_shopcarts():
+    results = Shopcart.query.filter(Shopcart.user_id == current_user.id)
+    # return render_template('dept_home.html', outString = results)
+    # posts = Post.query.all()
+    # return render_template('home.html', posts=posts)
+    # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+    #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
+    #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
+    # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+    #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+    return render_template('shopcarts.html', title='Shopping Cart', shopcarts=results)
+
+@app.route("/shopcart/<shopcartId>")
+@login_required
+def shopcart(shopcartId):
+
+    print(shopcartId)
+
+    shopcart1 = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.id == shopcartId).join(ShopcartProd, Shopcart.id == ShopcartProd.shopcart_id) \
+            .join(Product, Product.id == ShopcartProd.product_id).add_columns(Shopcart.id, Product.title, Shopcart.date_posted)
+    print(shopcart)
+
+    return render_template('shopcart.html', shopcart=shopcart1)
 
 # react
 # @app.route("/products")
