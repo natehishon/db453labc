@@ -3,8 +3,8 @@
     {% for row in orders %}
         <article class="media content-section">
             <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('order', orderId=row.id) }}">{{ row }}</a> <br/>
+                <div class="">
+                    <a class="mr-2" href="{{ url_for('order', orderId=row.id) }}">Order at: {{ row.date_posted }}</a> <br/>
                 </div>
             </div>
         </article>

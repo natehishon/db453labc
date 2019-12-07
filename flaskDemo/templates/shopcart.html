@@ -12,8 +12,8 @@
     {% for row in shopcartProds %}
         <article class="media content-section">
             <div class="media-body">
-                <div class="article-metadata">
-                    Product: {{ row.title }}
+                <div class="">
+                    Product: {{ row.title }} <a class="btn btn-danger btn-sm mt-1 mb-1 " style="float:right;" href="{{ url_for('removeFromCart', pno=row.id) }}">Remove</a>
                 </div>
             </div>
         </article>

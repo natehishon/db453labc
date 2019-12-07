@@ -33,14 +33,27 @@ def home():
 
     return render_template('products.html', title='Products', products=results)
 
+
+@app.route("/remove-from-cart")
+@login_required
+def removeFromCart():
+    pno = request.args.get('pno')
+    ShopcartProd.query.filter(ShopcartProd.id == pno).delete()
+    db.session.commit()
+    flash('Successfully removed from cart!', 'success')
+    return redirect(url_for('all_shopcarts'))
+
+
+
 @app.route("/add-to-cart")
+@login_required
 def addToCart():
     pno = request.args.get('pno')
 
+
     exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
 
-
-    if exists==None:
+    if exists == None:
         print('here')
         shoppingCart = Shopcart(user_id=current_user.id, status='active')
         db.session.add(shoppingCart)
@@ -50,18 +63,16 @@ def addToCart():
         shoppingCart = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").first()
     #     make new
 
-
-
     assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
     db.session.add(assign)
     db.session.commit()
     flash('Successfully add to cart!', 'success')
-#    return redirect(url_for('all_shopcarts'))
-    return redirect(url_for('home'))
-
+    #    return redirect(url_for('all_shopcarts'))
+    return redirect(url_for('all_shopcarts'))
 
 
 @app.route("/checkout")
+@login_required
 def checkout():
     shopcartID = request.args.get('shopcartId')
 
@@ -82,7 +93,6 @@ def checkout():
         assign = OrderLine(product_id=shopProd.id, order_id=newOrder.id)
         db.session.add(assign)
         db.session.commit()
-
 
     shoppingCart.status = "paid"
     db.session.add(shoppingCart)
@@ -106,8 +116,9 @@ def checkout():
     # db.session.add(assign)
     # db.session.commit()
     flash('Successfully checked out', 'success')
-#    return redirect(url_for('all_shopcarts'))
+    #    return redirect(url_for('all_shopcarts'))
     return redirect(url_for('home'))
+
 
 # @app.route("/assign/new", methods=['GET', 'POST'])
 # @login_required
@@ -169,6 +180,7 @@ def all_orders():
     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
     return render_template('orders.html', title='Orders', orders=results)
 
+
 # #react
 # @app.route("/orders")
 # def all_orders():
@@ -189,42 +201,51 @@ def all_orders():
 @app.route("/order/<orderId>")
 @login_required
 def order(orderId):
-
-
-    order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).join(OrderLine, Order.id == OrderLine.order_id) \
-            .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title, Order.date_posted)
-
-
+    order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).join(OrderLine,
+                                                                                            Order.id == OrderLine.order_id) \
+        .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title, Order.date_posted)
 
     return render_template('order.html', order=order1)
 
 
-@app.route("/shopcarts")
+@app.route("/shopcart")
 @login_required
 def all_shopcarts():
-    results = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status=='active')
-    # return render_template('dept_home.html', outString = results)
-    # posts = Post.query.all()
-    # return render_template('home.html', posts=posts)
-    # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-    #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-    # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-    return render_template('shopcarts.html', title='Shopping Cart', shopcarts=results)
+    # results = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status=='active')
 
-@app.route("/shopcart/<shopcartId>")
-@login_required
-def shopcart(shopcartId):
+    exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
 
-    shoppingCart = Shopcart.query.get_or_404(shopcartId)
+    if exists == None:
 
-    shopcartProds = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.id == shopcartId).join(ShopcartProd, Shopcart.id == ShopcartProd.shopcart_id) \
-            .join(Product, Product.id == ShopcartProd.product_id).add_columns(Shopcart.id, Product.title, Shopcart.date_posted)
+        shoppingCart = Shopcart(user_id=current_user.id, status='active')
+        shopcartProds = []
+        db.session.add(shoppingCart)
+        db.session.commit()
+    else:
 
-
+        shoppingCart = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").first()
+        shopcartProds = Shopcart.query.filter(shoppingCart.user_id == current_user.id,
+                                              Shopcart.id == shoppingCart.id).join(ShopcartProd,
+                                                                                   Shopcart.id == ShopcartProd.shopcart_id) \
+            .join(Product, Product.id == ShopcartProd.product_id).add_columns(ShopcartProd.id, Product.title,
+                                                                              Shopcart.date_posted)
 
     return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart)
+
+
+#
+# @app.route("/shopcart/<shopcartId>")
+# @login_required
+# def shopcart(shopcartId):
+#
+#     shoppingCart = Shopcart.query.get_or_404(shopcartId)
+#
+#     shopcartProds = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.id == shopcartId).join(ShopcartProd, Shopcart.id == ShopcartProd.shopcart_id) \
+#             .join(Product, Product.id == ShopcartProd.product_id).add_columns(Shopcart.id, Product.title, Shopcart.date_posted)
+#
+#
+#
+#     return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart)
 
 # react
 # @app.route("/products")
@@ -323,7 +344,6 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
-
 
 #
 #
