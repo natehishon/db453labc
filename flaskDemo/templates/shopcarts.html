@@ -4,9 +4,13 @@
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('shopcart', shopcartId=row.id) }}">{{ row }}</a> <br/>
+                    <a class="mr-2" href="{{ url_for('shopcart', shopcartId=row.id) }}">See products</a> <br/>
                 </div>
             </div>
         </article>
     {% endfor %}
+
+     {% if shopcarts.count() == 0 %}
+        <span>Add a product to your cart!</span>
+    {% endif %}
 {% endblock content %}

@@ -9,14 +9,22 @@
 </body>
 </html>{% extends "layout.html" %}
 {% block content %}
-   {% for row in shopcart %}
+    {% for row in shopcartProds %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
                     Product: {{ row.title }}
-{#                    <a class="mr-2" href="{{ url_for('shopcart', shopcartId=row.id) }}">{{ row }}</a> <br/>#}
                 </div>
             </div>
         </article>
+        <div>
+
+            {#         <a class="" href="{{ url_for('assign1', pno=row.pno,essn=row.essn) }}">Remove</a>#}
+        </div>
     {% endfor %}
+
+
+
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('checkout', shopcartId=shoppingCart.id) }}">Checkout</a>
 {% endblock content %}
+

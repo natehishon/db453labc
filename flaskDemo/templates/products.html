@@ -2,14 +2,15 @@
 {% block content %}
     {% for row in products %}
         <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ row }}</a> <br/>
+            <div class="media-body" style="width: 100%">
+                <div class="" >
+                    <span class="mr-2" href="#">{{ row.title }}</span><a class="btn btn-secondary btn-sm mt-1 mb-1 " style="float:right;" href="{{ url_for('addToCart', pno=row.id) }}">Add to Cart</a> <br/>
                 </div>
             </div>
         </article>
          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('addToCart') , }}">Add to Cart</a>
+
+{#         <a class="" href="{{ url_for('assign1', pno=row.pno,essn=row.essn) }}">Remove</a>#}
          </div>
     {% endfor %}
 {% endblock content %}
