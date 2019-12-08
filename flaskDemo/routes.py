@@ -19,15 +19,6 @@ def load_user(id):
 @app.route("/")
 @app.route("/home")
 def home():
-    # login manager!
-
-    # results = []
-    #
-    # if current_user.is_active:
-    #     # results = Order.query.filter(Order.user_id == current_user.id)
-    #
-    #     results = Order.query.filter(Order.user_id == current_user.id).join(OrderLine, Order.id == OrderLine.order_id) \
-    #         .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title)
 
     results = Product.query.all()
 
@@ -54,20 +45,17 @@ def addToCart():
     exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
 
     if exists == None:
-        print('here')
         shoppingCart = Shopcart(user_id=current_user.id, status='active')
         db.session.add(shoppingCart)
         db.session.commit()
     else:
-        print(exists)
         shoppingCart = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").first()
-    #     make new
 
     assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
     db.session.add(assign)
     db.session.commit()
     flash('Successfully add to cart!', 'success')
-    #    return redirect(url_for('all_shopcarts'))
+
     return redirect(url_for('all_shopcarts'))
 
 
@@ -76,7 +64,6 @@ def addToCart():
 def checkout():
     shopcartID = request.args.get('shopcartId')
 
-    print(shopcartID)
 
     shoppingCart = Shopcart.query.get_or_404(shopcartID)
 
@@ -89,7 +76,6 @@ def checkout():
     db.session.commit()
 
     for shopProd in shopcartProds:
-        print(shopProd)
         assign = OrderLine(product_id=shopProd.id, order_id=newOrder.id)
         db.session.add(assign)
         db.session.commit()
@@ -98,105 +84,37 @@ def checkout():
     db.session.add(shoppingCart)
     db.session.commit()
 
-    # exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active")
-    #
-    #
-    # if exists==None:
-    #     print('here')
-    #     shoppingCart = Shopcart(user_id=current_user.id, status='active')
-    #     db.session.add(shoppingCart)
-    #     db.session.commit()
-    # else:
-    #     shoppingCart = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").first()
-    # #     make new
-    #
-    #
-    #
-    # assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
-    # db.session.add(assign)
-    # db.session.commit()
+
     flash('Successfully checked out', 'success')
-    #    return redirect(url_for('all_shopcarts'))
     return redirect(url_for('home'))
 
 
-# @app.route("/assign/new", methods=['GET', 'POST'])
-# @login_required
-# def new_assign():
-#     print ("inside new_assign")
-#     form = AssignForm()
-#     print("after assigning Form")
-#     if form.validate_on_submit():
-#         print('inside form.validate')
-#         assign = Works_On(essn=form.essn.data, pno=form.pno.data, hours=0)
-#         db.session.add(assign)
-#         db.session.commit()
-#         flash('You have added a new assignment!', 'success')
-#         return redirect(url_for('home'))
-#     return render_template('create_assign.html', title='New Assignment',
-#                            form=form, legend='New Assignment')
-
 #
-# @app.route("/products")
-# def all_products():
-#     results = Product.query.all()
-#     # return render_template('dept_home.html', outString = results)
-#     # posts = Post.query.all()
-#     # return render_template('home.html', posts=posts)
-#     # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-#     #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-#     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-#     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-#     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-#     return render_template('products.html', title='Products', products=results)
-
-# react
 @app.route("/products")
 def all_products():
     results = Product.query.all()
-    # return render_template('dept_home.html', outString = results)
-    # posts = Post.query.all()
-    # return render_template('home.html', posts=posts)
-    # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-    #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-    # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+    return render_template('products.html', title='Products', products=results)
 
-    return jsonify(results=[e.serialize() for e in results])
+# react
+# @app.route("/products")
+# def all_products():
+#     results = Product.query.all()
+#     return jsonify(results=[e.serialize() for e in results])
 
 
 @app.route("/orders")
 @login_required
 def all_orders():
     results = Order.query.filter(Order.user_id == current_user.id)
-    # return render_template('dept_home.html', outString = results)
-    # posts = Post.query.all()
-    # return render_template('home.html', posts=posts)
-    # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-    #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-    # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-    #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
     return render_template('orders.html', title='Orders', orders=results)
 
 
-# #react
+#react
 # @app.route("/orders")
 # def all_orders():
-#     #will need a user input
 #     userid = 1
 #     results = Order.query.filter(Order.user_id == userid)
-#     # return render_template('dept_home.html', outString = results)
-#     # posts = Post.query.all()
-#     # return render_template('home.html', posts=posts)
-#     # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-#     #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-#     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-#     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-#     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
 #     return jsonify(orders=[e.serialize() for e in results])
-#     # return render_template('orders.html', title='Orders', orders=results)
 
 @app.route("/order/<orderId>")
 @login_required
