@@ -3,11 +3,9 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flaskDemo import app, db, bcrypt
-import json
 from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm, AddToCartForm
 from flaskDemo.models import User, Order, Product, OrderLine, Shopcart, ShopcartProd
 from flask_login import login_user, current_user, logout_user, login_required
-from datetime import datetime
 from .__init__ import login_manager
 
 
@@ -51,12 +49,18 @@ def addToCart():
     else:
         shoppingCart = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").first()
 
-    assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
-    db.session.add(assign)
-    db.session.commit()
-    flash('Successfully add to cart!', 'success')
 
-    return redirect(url_for('all_shopcarts'))
+    shopProdExist = ShopcartProd.query.filter(ShopcartProd.product_id == pno, ShopcartProd.shopcart_id == shoppingCart.id).scalar()
+
+    if shopProdExist == None:
+        assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
+        db.session.add(assign)
+        db.session.commit()
+        flash('Successfully add to cart!', 'success')
+    else:
+        flash('Already in cart!', 'danger')
+
+    return redirect(url_for('home'))
 
 
 @app.route("/checkout")
@@ -129,7 +133,6 @@ def order(orderId):
 @app.route("/shopcart")
 @login_required
 def all_shopcarts():
-    # results = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status=='active')
 
     exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
 
@@ -151,41 +154,9 @@ def all_shopcarts():
     return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart)
 
 
-#
-# @app.route("/shopcart/<shopcartId>")
-# @login_required
-# def shopcart(shopcartId):
-#
-#     shoppingCart = Shopcart.query.get_or_404(shopcartId)
-#
-#     shopcartProds = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.id == shopcartId).join(ShopcartProd, Shopcart.id == ShopcartProd.shopcart_id) \
-#             .join(Product, Product.id == ShopcartProd.product_id).add_columns(Shopcart.id, Product.title, Shopcart.date_posted)
-#
-#
-#
-#     return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart)
-
-# react
-# @app.route("/products")
-# def all_products():
-#     results = Product.query.all()
-#     # return render_template('dept_home.html', outString = results)
-#     # posts = Post.query.all()
-#     # return render_template('home.html', posts=posts)
-#     # results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-#     #            .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
-#     #            .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
-#     # results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
-#     #           .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
-#
-#     return jsonify(results=[e.serialize() for e in results])
 
 
-# @app.route("/about")
-# def about():
-#     return render_template('about.html', title='About')
-#
-#
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -229,18 +200,18 @@ def logout():
 
 #
 #
-# def save_picture(form_picture):
-#     random_hex = secrets.token_hex(8)
-#     _, f_ext = os.path.splitext(form_picture.filename)
-#     picture_fn = random_hex + f_ext
-#     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-#
-#     output_size = (125, 125)
-#     i = Image.open(form_picture)
-#     i.thumbnail(output_size)
-#     i.save(picture_path)
-#
-#     return picture_fn
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
 #
 
 @app.route("/account", methods=['GET', 'POST'])
@@ -263,60 +234,7 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-#
-#
-# @app.route("/dept/new", methods=['GET', 'POST'])
-# @login_required
-# def new_dept():
-#     form = DeptForm()
-#     if form.validate_on_submit():
-#         dept = Department(dname=form.dname.data, dnumber=form.dnumber.data,mgr_ssn=form.mgr_ssn.data,mgr_start=form.mgr_start.data)
-#         db.session.add(dept)
-#         db.session.commit()
-#         flash('You have added a new department!', 'success')
-#         return redirect(url_for('home'))
-#     return render_template('create_dept.html', title='New Department',
-#                            form=form, legend='New Department')
-#
-#
 
-#
-#
-# @app.route("/dept/<dnumber>/update", methods=['GET', 'POST'])
-# @login_required
-# def update_dept(dnumber):
-#     dept = Department.query.get_or_404(dnumber)
-#     currentDept = dept.dname
-#
-#     form = DeptUpdateForm()
-#     if form.validate_on_submit():          # notice we are are not passing the dnumber from the form
-#         if currentDept !=form.dname.data:
-#             dept.dname=form.dname.data
-#         dept.mgr_ssn=form.mgr_ssn.data
-#         dept.mgr_start=form.mgr_start.data
-#         db.session.commit()
-#         flash('Your department has been updated!', 'success')
-#         return redirect(url_for('dept', dnumber=dnumber))
-#     elif request.method == 'GET':
-#         form.dnumber.data = dept.dnumber   # notice that we ARE passing the dnumber to the form
-#         form.dname.data = dept.dname
-#         form.mgr_ssn.data = dept.mgr_ssn
-#         form.mgr_start.data = dept.mgr_start
-#     return render_template('update_dept.html', title='Update Department',
-#                            form=form, legend='Update Department')          # note the update template!
-#
-#
-#
-
-#
-# @app.route("/dept/<dnumber>/delete", methods=['POST'])
-# @login_required
-# def delete_dept(dnumber):
-#     dept = Department.query.get_or_404(dnumber)
-#     db.session.delete(dept)
-#     db.session.commit()
-#     flash('The department has been deleted!', 'success')
-#     return redirect(url_for('home'))
 #
 #
 #
@@ -342,61 +260,4 @@ def account():
 #
 #     return render_template('assign_home.html', title='Employees', joined_m_n=employeeProjects)
 #
-# @app.route("/projects")
-# def projects():
-#     projects = Project.query.all()
 #
-#     return render_template('projects.html', title='Projects', joined_m_n=projects)
-#
-#
-#
-# @app.route("/assign1")
-# @login_required
-# def assign1():
-#     essn = request.args.get('essn')
-#     pno = request.args.get('pno')
-#     assign = Works_On.query.get_or_404([essn,pno])
-#     return render_template('assign.html', title=str(assign.essn)+"_"+str(assign.pno), assign=assign,now=datetime.utcnow())
-#
-#
-# @app.route("/assign/<essn>/<pno>delete", methods=['POST'])
-# @login_required
-# def delete_assign(essn,pno):
-#     assign = Works_On.query.get_or_404([essn,pno])
-#     db.session.delete(assign)
-#     db.session.commit()
-#     flash('The works on has been deleted!', 'success')
-#     return redirect(url_for('home'))
-#
-#
-# @app.route("/project/<pnumber>")
-# @login_required
-# def project(pnumber):
-#
-#     project = Project.query.get_or_404(pnumber)
-#
-#     # project = sqlraw(select * from
-#
-#     currentEmployees = Employee.query.join(Works_On, Employee.ssn == Works_On.essn) \
-#         .add_columns(Employee.ssn, Employee.fname, Employee.lname, Works_On.essn, Works_On.pno) \
-#         .join(Project, Project.pnumber == Works_On.pno).add_columns(Project.pname).filter(Project.pnumber == pnumber)
-#     #
-#
-#     currentIds = db.session.query(Employee.ssn). \
-#         join(Works_On, Works_On.essn == Employee.ssn). \
-#         filter(Works_On.pno == pnumber)
-#
-#     availableEmployees = Employee.query.filter(Employee.ssn.notin_(currentIds)).all()
-#
-#
-#
-#     return render_template('project.html', title=project.pname, project=project, employees=currentEmployees, currentIds = availableEmployees, now=datetime.utcnow())
-#
-#
-# @app.route("/works/<essn>/<pno>works", methods=['GET'])
-# @login_required
-# def new_works(essn,pno):
-#     new_works = Works_On(essn=essn, pno=pno, hours=0)
-#     db.session.add(new_works)
-#     db.session.commit()
-#     return redirect(url_for('projects'))
