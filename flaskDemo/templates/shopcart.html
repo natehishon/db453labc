@@ -23,12 +23,19 @@
         </article>
         <div>
 
-            {#         <a class="" href="{{ url_for('assign1', pno=row.pno,essn=row.essn) }}">Remove</a>#}
         </div>
     {% endfor %}
 
+    {% if shopcartProds.count() == 0 %}
+        <span>Add a product to your cart!</span>
+
+        {% else %}
+
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('checkout', shopcartId=shoppingCart.id) }}">Checkout</a>
+
+    {% endif %}
 
 
-    <a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('checkout', shopcartId=shoppingCart.id) }}">Checkout</a>
+
 {% endblock content %}
 

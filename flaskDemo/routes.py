@@ -17,7 +17,6 @@ def load_user(id):
 @app.route("/")
 @app.route("/home")
 def home():
-
     results = Product.query.all()
 
     return render_template('products.html', title='Products', products=results)
@@ -33,12 +32,10 @@ def removeFromCart():
     return redirect(url_for('all_shopcarts'))
 
 
-
 @app.route("/add-to-cart")
 @login_required
 def addToCart():
     pno = request.args.get('pno')
-
 
     exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
 
@@ -49,8 +46,8 @@ def addToCart():
     else:
         shoppingCart = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").first()
 
-
-    shopProdExist = ShopcartProd.query.filter(ShopcartProd.product_id == pno, ShopcartProd.shopcart_id == shoppingCart.id).scalar()
+    shopProdExist = ShopcartProd.query.filter(ShopcartProd.product_id == pno,
+                                              ShopcartProd.shopcart_id == shoppingCart.id).scalar()
 
     if shopProdExist == None:
         assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
@@ -67,7 +64,6 @@ def addToCart():
 @login_required
 def checkout():
     shopcartID = request.args.get('shopcartId')
-
 
     shoppingCart = Shopcart.query.get_or_404(shopcartID)
 
@@ -88,7 +84,6 @@ def checkout():
     db.session.add(shoppingCart)
     db.session.commit()
 
-
     flash('Successfully checked out', 'success')
     return redirect(url_for('home'))
 
@@ -98,6 +93,7 @@ def checkout():
 def all_products():
     results = Product.query.all()
     return render_template('products.html', title='Products', products=results)
+
 
 # react
 # @app.route("/products")
@@ -113,7 +109,7 @@ def all_orders():
     return render_template('orders.html', title='Orders', orders=results)
 
 
-#react
+# react
 # @app.route("/orders")
 # def all_orders():
 #     userid = 1
@@ -123,8 +119,8 @@ def all_orders():
 @app.route("/order/<orderId>")
 @login_required
 def order(orderId):
-    order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).join(OrderLine,
-                                                                                            Order.id == OrderLine.order_id) \
+    order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).\
+        join(OrderLine, Order.id == OrderLine.order_id)\
         .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title, Order.date_posted)
 
     return render_template('order.html', order=order1)
@@ -133,7 +129,6 @@ def order(orderId):
 @app.route("/shopcart")
 @login_required
 def all_shopcarts():
-
     exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
 
     if exists == None:
@@ -152,9 +147,6 @@ def all_shopcarts():
                                                                               Shopcart.date_posted)
 
     return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart)
-
-
-
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -198,8 +190,6 @@ def logout():
     return redirect(url_for('home'))
 
 
-#
-#
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -212,6 +202,8 @@ def save_picture(form_picture):
     i.save(picture_path)
 
     return picture_fn
+
+
 #
 
 @app.route("/account", methods=['GET', 'POST'])
@@ -233,31 +225,3 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
-
-
-#
-#
-#
-# # @app.route("/remove-employee-proj/delete", methods=['POST'])
-# # @login_required
-# # def delete_employee():
-# #     req_data = request.get_json()
-# #     print(req_data);
-# #     # dept = Department.query.get_or_404(dnumber)
-# #     # db.session.delete(dept)
-# #     # db.session.commit()
-# #     flash('The department has been deleted!', 'success')
-# #     return redirect(url_for('home'))
-#
-#
-#
-#
-# @app.route("/employees")
-# def employees():
-#     employeeProjects = Employee.query.join(Works_On, Employee.ssn == Works_On.essn) \
-#         .add_columns(Employee.ssn, Employee.fname, Employee.lname, Works_On.essn, Works_On.pno) \
-#         .join(Project, Project.pnumber == Works_On.pno).add_columns(Project.pname)
-#
-#     return render_template('assign_home.html', title='Employees', joined_m_n=employeeProjects)
-#
-#
