@@ -9,12 +9,14 @@
 </body>
 </html>{% extends "layout.html" %}
 {% block content %}
-   {% for row in order %}
+
+    <h1 style="margin:2% 0 5% ;">Order at {{ order.date_posted }}</h1>
+
+   {% for row in orderProds %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="">
                     Product: {{ row.title }}
-{#                    <a class="mr-2" href="{{ url_for('order', orderId=row.id) }}">{{ row }}</a> <br/>#}
                 </div>
             </div>
         </article>

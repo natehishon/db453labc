@@ -11,4 +11,9 @@
             </div>
         </article>
     {% endfor %}
+
+    {% if orders.count() == 0 %}
+        <span>No orders</span>
+    {% endif %}
+
 {% endblock content %}

@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm, AddToCartForm
+from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskDemo.models import User, Order, Product, OrderLine, Shopcart, ShopcartProd
 from flask_login import login_user, current_user, logout_user, login_required
 from .__init__ import login_manager
@@ -53,9 +53,9 @@ def addToCart():
         assign = ShopcartProd(product_id=pno, shopcart_id=shoppingCart.id)
         db.session.add(assign)
         db.session.commit()
-        flash('Successfully add to cart!', 'success')
+        flash('Successfully added to cart', 'success')
     else:
-        flash('Already in cart!', 'danger')
+        flash('Already in cart', 'danger')
 
     return redirect(url_for('home'))
 
@@ -119,17 +119,21 @@ def all_orders():
 @app.route("/order/<orderId>")
 @login_required
 def order(orderId):
-    order1 = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).\
+    order = Order.query.filter(Order.id == orderId).first()
+    orderProds = Order.query.filter(Order.user_id == current_user.id, Order.id == orderId).\
         join(OrderLine, Order.id == OrderLine.order_id)\
         .join(Product, Product.id == OrderLine.product_id).add_columns(Order.id, Product.title, Order.date_posted)
 
-    return render_template('order.html', order=order1)
+    return render_template('order.html', orderProds=orderProds, order=order)
 
 
 @app.route("/shopcart")
 @login_required
 def all_shopcarts():
     exists = Shopcart.query.filter(Shopcart.user_id == current_user.id, Shopcart.status == "active").scalar()
+
+    count = 0
+
 
     if exists == None:
 
@@ -145,8 +149,11 @@ def all_shopcarts():
                                                                                    Shopcart.id == ShopcartProd.shopcart_id) \
             .join(Product, Product.id == ShopcartProd.product_id).add_columns(ShopcartProd.id, Product.title,
                                                                               Shopcart.date_posted)
+        count = shopcartProds.count()
 
-    return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart)
+
+
+    return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart, count=count)
 
 
 @app.route("/register", methods=['GET', 'POST'])
