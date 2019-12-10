@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51a99ba6-d17e-432f-bf21-e90a68a7f86c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/ProductForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ProductForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskDemo/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskDemo/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flaskDemo/routes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="121" column="30" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
+            <state relative-caret-position="224">
+              <caret line="36" column="62" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="62" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -56,14 +57,44 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/front-end/src/components/ProductForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+            <state relative-caret-position="157">
+              <caret line="37" column="53" lean-forward="true" selection-start-line="37" selection-start-column="53" selection-end-line="37" selection-end-column="53" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/flaskDemo/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="40" column="25" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/front-end/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/flaskDemo/templates/account.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -80,12 +111,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>redire</find>
-      <find>shoppingcart</find>
-      <find>orderline</find>
       <find>checko</find>
       <find>add_columns</find>
-      <find>checkout</find>
       <find>/shop</find>
       <find>our</find>
       <find>/shi</find>
@@ -110,6 +137,10 @@
       <find>shopcartProds</find>
       <find>filter</find>
       <find>sub-</find>
+      <find>account</find>
+      <find>all_shop</find>
+      <find>checkout</find>
+      <find>shopcart</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -119,7 +150,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/flaskDemo/templates/shopcarts.html" />
-        <option value="$PROJECT_DIR$/front-end/package.json" />
         <option value="$PROJECT_DIR$/flaskDemo/templates/layout.html" />
         <option value="$PROJECT_DIR$/flaskDemo/templates/order.html" />
         <option value="$PROJECT_DIR$/flaskDemo/templates/shopcart.html" />
@@ -132,9 +162,10 @@
         <option value="$PROJECT_DIR$/flaskDemo/templates/products.html" />
         <option value="$PROJECT_DIR$/flaskDemo/templates/orders.html" />
         <option value="$PROJECT_DIR$/flaskDemo/templates/general.html" />
-        <option value="$PROJECT_DIR$/flaskDemo/routes.py" />
         <option value="$PROJECT_DIR$/front-end/src/components/Order.js" />
         <option value="$PROJECT_DIR$/front-end/src/components/ProductForm.js" />
+        <option value="$PROJECT_DIR$/front-end/package.json" />
+        <option value="$PROJECT_DIR$/flaskDemo/routes.py" />
       </list>
     </option>
   </component>
@@ -152,24 +183,6 @@
               <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="b2602c69:ProjectViewProjectNode" />
               <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="462c0819:PsiDirectoryNode" />
-              <item name="front-end" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="462c0819:PsiDirectoryNode" />
-              <item name="front-end" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="08-CrUD-Lab-Update-Inherit-template-solution" type="462c0819:PsiDirectoryNode" />
-              <item name="front-end" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -181,7 +194,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/flaskDemo/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -248,11 +261,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27578000" />
+    <option name="totallyTimeSpent" value="29583000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="23" width="1262" height="726" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28278688" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -265,9 +277,9 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32973805" />
+      <window_info anchor="bottom" id="Version Control" order="8" visible="true" weight="0.329653" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.33123028" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.33123028" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -323,16 +335,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flaskDemo/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="114" column="33" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/flaskDemo/templates/assign_home.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -342,13 +344,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flaskDemo/templates/home.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="22" column="36" lean-forward="true" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/flaskDemo/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -479,16 +474,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flaskDemo/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="121" column="30" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/front-end/src/components/Order.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
@@ -499,12 +484,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/flaskDemo/templates/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flaskDemo/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="40" column="25" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/front-end/src/components/ProductForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+        <state relative-caret-position="157">
+          <caret line="37" column="53" lean-forward="true" selection-start-line="37" selection-start-column="53" selection-end-line="37" selection-end-column="53" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flaskDemo/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="36" column="62" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

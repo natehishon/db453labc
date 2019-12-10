@@ -177,7 +177,6 @@ def all_shopcarts():
 
     count = 0
 
-
     if exists == None:
 
         shoppingCart = Shopcart(user_id=current_user.id, status='active')
@@ -245,7 +244,6 @@ def register():
 @app.route('/add_product', methods=['POST'])
 def add_posts():
     content = request.get_json()
-    print(content)
     product = Product(title=content['title'])
     db.session.add(product)
     db.session.commit()
