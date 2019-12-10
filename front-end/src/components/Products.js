@@ -4,9 +4,6 @@ import {List, Header} from 'semantic-ui-react';
 
 export const Products = ({ products }) => {
 
-    console.log('yo');
-    console.log(products);
-
     return (
         <List>
             {products.map(product => {

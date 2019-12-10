@@ -7,6 +7,9 @@ from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskDemo.models import User, Order, Product, OrderLine, Shopcart, ShopcartProd
 from flask_login import login_user, current_user, logout_user, login_required
 from .__init__ import login_manager
+from sqlalchemy import text
+
+
 
 
 @login_manager.user_loader
@@ -17,9 +20,14 @@ def load_user(id):
 @app.route("/")
 @app.route("/home")
 def home():
-    results = Product.query.all()
+    cmd = 'select * from Product'
+    results = db.session.execute(text(cmd))
+    count = 'select count(*) from Product as count'
+    countResults = db.session.execute(text(count))
 
-    return render_template('products.html', title='Products', products=results)
+
+
+    return render_template('products.html', title='Products', products=results, count=countResults.first()[0])
 
 
 @app.route("/remove-from-cart")
@@ -91,15 +99,50 @@ def checkout():
 #
 @app.route("/products")
 def all_products():
-    results = Product.query.all()
-    return render_template('products.html', title='Products', products=results)
+
+    cmd = 'select * from Product'
+    result = db.session.execute(text(cmd))
+
+
+    return render_template('products.html', title='Products', products=result)
+
+@app.route("/general-sub")
+def general_sub():
+
+    cmd = 'select * from ShopCart where status in (select distinct status from ShopCart)'
+    result = db.session.execute(text(cmd))
+
+
+    return render_template('general.html', title='General', results=result)
+
+@app.route("/general-compound")
+def general_compound():
+
+    # ORDER IS RESERVED
+    sql = text("SELECT * FROM ShopCart WHERE user_id = 1 and status = 'active'")
+    result = db.engine.execute(sql)
+
+
+    return render_template('general.html', title='General', results=result)
+
+
+@app.route("/general-join")
+def general_join():
+
+    # ORDER IS RESERVED
+    sql = text("SELECT ShopCart.id, shopcart_prod.id from ShopCart JOIN shopcart_prod on ShopCart.id = shopcart_prod.shopcart_id")
+    result = db.engine.execute(sql)
+
+
+    return render_template('general.html', title='General', results=result)
+
 
 
 # react
-# @app.route("/products")
-# def all_products():
-#     results = Product.query.all()
-#     return jsonify(results=[e.serialize() for e in results])
+@app.route("/react-products")
+def react_products():
+    results = Product.query.all()
+    return jsonify(results=[e.serialize() for e in results])
 
 
 @app.route("/orders")
@@ -110,11 +153,11 @@ def all_orders():
 
 
 # react
-# @app.route("/orders")
-# def all_orders():
-#     userid = 1
-#     results = Order.query.filter(Order.user_id == userid)
-#     return jsonify(orders=[e.serialize() for e in results])
+@app.route("/react-orders")
+def react_orders():
+    userid = 1
+    results = Order.query.filter(Order.user_id == userid)
+    return jsonify(orders=[e.serialize() for e in results])
 
 @app.route("/order/<orderId>")
 @login_required
@@ -156,6 +199,34 @@ def all_shopcarts():
     return render_template('shopcart.html', shopcartProds=shopcartProds, shoppingCart=shoppingCart, count=count)
 
 
+@app.route("/react-shopcart")
+@login_required
+def react_cart():
+
+    count = 0
+    userid = 1
+
+    exists = Shopcart.query.filter(Shopcart.user_id == userid, Shopcart.status == "active").scalar()
+
+    if exists == None:
+
+        shoppingCart = Shopcart(user_id=userid, status='active')
+        shopcartProds = []
+        db.session.add(shoppingCart)
+        db.session.commit()
+    else:
+
+        shoppingCart = Shopcart.query.filter(Shopcart.user_id == userid, Shopcart.status == "active").first()
+        shopcartProds = Shopcart.query.filter(shoppingCart.user_id == userid,
+                                              Shopcart.id == shoppingCart.id).join(ShopcartProd,
+                                                                                   Shopcart.id == ShopcartProd.shopcart_id) \
+            .join(Product, Product.id == ShopcartProd.product_id).add_columns(ShopcartProd.id, Product.title,
+                                                                              Shopcart.date_posted)
+        count = shopcartProds.count()
+
+    return jsonify(shopcartProds=[e.serialize() for e in shopcartProds], shoppingCart=shoppingCart.serialize())
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -170,6 +241,17 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+
+@app.route('/add_product', methods=['POST'])
+def add_posts():
+    content = request.get_json()
+    print(content)
+    product = Product(title=content['title'])
+    db.session.add(product)
+    db.session.commit()
+
+    resp = jsonify(success=True)
+    return resp
 
 #
 #

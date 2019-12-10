@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 style="margin:2% 0 5% ;">Output</h1>
+    {% for row in results %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="">
+                    {{ row }}
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+
+{% endblock content %}

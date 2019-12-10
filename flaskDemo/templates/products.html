@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1 style="margin:2% 0 5% ;">Products</h1>
+    <p>Total Count: {{ count }}</p>
     {% for row in products %}
         <article class="media content-section">
             <div class="media-body" style="width: 100%">

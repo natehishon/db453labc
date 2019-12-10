@@ -63,6 +63,13 @@ class Shopcart(db.Model):
     def __repr__(self):
         return f"Shopcart('{self.date_posted}')"
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'date_posted': self.date_posted,
+
+        }
+
 class ShopcartProd(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
@@ -73,12 +80,19 @@ class ShopcartProd(db.Model):
     def __repr__(self):
         return f"ShopcartProd('{self.date_posted}')"
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'product_id': self.product_id,
+
+        }
+
 class Product(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    orderLines = db.relationship('OrderLine', backref='product  OrderLine', lazy=True)
+    # orderLines = db.relationship('OrderLine', backref='product  OrderLine', lazy=True)
 
 
     def __repr__(self):

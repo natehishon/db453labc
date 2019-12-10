@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { Form, Input, Button } from 'semantic-ui-react';
+import {Form, Input, Button} from 'semantic-ui-react';
 
 export const ProductForm = () => {
 
-    const [title, setTitle] = useState("")  ;
+    const [title, setTitle] = useState("");
 
     return (
         <Form>
@@ -14,22 +14,25 @@ export const ProductForm = () => {
                     onChange={e => setTitle(e.target.value)}
                 />
             </Form.Field>
-             <Form.Field>
-                 <Button onClick={async () => {
-                     const product = {title};
-                     const response = await fetch('/add_product', {
-                         method: 'POST',
-                         headers: {
-                             'Content-type': 'application/json'
-                         },
-                         body: JSON.stringify(product)
-                     })
+            <Form.Field>
+                <Button onClick={async () => {
+                    const product = {title};
+                    const response = await fetch('/add_product', {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json'
+                        },
+                        body: JSON.stringify(product)
+                    })
 
-                     if (response.ok) {
 
-                     }
+                    if (response.ok) {
+                        console.log(response);
+                        console.log("good!");
+                        setTitle("");
+                    }
 
-                 }}>submit</Button>
+                }}>submit</Button>
             </Form.Field>
         </Form>
     )

@@ -6,6 +6,7 @@ import {Orders} from "./components/Orders";
 import {ProductForm} from "./components/ProductForm";
 import Menu from './components/Menu';
 import {Container} from "semantic-ui-react";
+import {ShoppingCart} from "./components/ShoppingCart";
 
 
 function App() {
@@ -14,13 +15,13 @@ function App() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch('/products').then(response => {
+        fetch('/react-products').then(response => {
             response.json().then(data => {
                 console.log(data);
                 setProducts(data.results);
             })
         })
-        fetch('/orders').then(response => {
+        fetch('/react-orders').then(response => {
             response.json().then(data => {
                 console.log(data);
                 setOrders(data.orders);
@@ -40,6 +41,7 @@ function App() {
                             <li><Link to={'/products'} className="nav-link"> Products </Link></li>
                             <li><Link to={'/orders'} className="nav-link"> Orders </Link></li>
                             <li><Link to={'/product-form'} className="nav-link">Product Form</Link></li>
+                            {/*<li><Link to={'/shopping-cart'} className="nav-link">Shopping Cart</Link></li>*/}
                             {/*<li><Link to={'/about'} className="nav-link">About</Link></li>*/}
                         </ul>
                     </nav>
@@ -59,6 +61,10 @@ function App() {
                             path='/product-form'
                             render={(props) => <ProductForm {...props} />}
                         />
+                        {/*<Route*/}
+                        {/*    path='/shopping-cart'*/}
+                        {/*    render={(props) => <ShoppingCart {...props} />}*/}
+                        {/*/>*/}
                         {/*<Route path='/contact' component={Contact}/>*/}
                         {/*<Route path='/about' component={About}/>*/}
                     </Switch>
