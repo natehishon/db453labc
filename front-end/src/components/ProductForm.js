@@ -5,8 +5,21 @@ export const ProductForm = () => {
 
     const [title, setTitle] = useState("");
 
+    let formStyle = {
+        width: '300px',
+        margin: '100px auto'
+    }
+
+    let labelStyle = {
+        'font-size': '18px',
+        margin: '20px 0',
+    };
+
     return (
-        <Form>
+        <Form style={formStyle}>
+            <div style={labelStyle}>
+                <label>PC's Tuna Emporium Product Form</label>
+            </div>
             <Form.Field>
                 <Input
                     placeholder="Product Title"

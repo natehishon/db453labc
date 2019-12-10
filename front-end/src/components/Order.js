@@ -16,7 +16,7 @@ export const Orders = ({orderId}) => {
             .then(({data}) => {
 
             })
-    }
+    })
 
     return (
         <div>{}
